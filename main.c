@@ -254,7 +254,7 @@ void ex2_partA (int n) {
         t = iterate_algorithms(n);
         iterated = 1;
     }
-    print_algorithms(n, t, iterated, 0);
+    print_algorithms(n, t, iterated, 2, 'a');
 }
 
 void ex2 () {
