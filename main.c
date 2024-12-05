@@ -267,9 +267,30 @@ double repeat_rand (int iter, int i) {
     return tb - ta;
 }
 
-double iterate_algorithms () {
+double iterate_algorithms_2 (int n, char part) {
+    double t1 = 0, t2 = 0;
+    if (part == 'a') {
+        t1 = microsegundos();
+        for (int k = 0; k < iterations; k++) {
+            for (int z = 0; z < n; z++) {}
+        }
+    }
+    return t2 - t1 - repeat_rand(iterations, 1);;
+}
+
+double iterate_algorithms_4 (int n, char part) {
     double t1 = 0, t2 = 0;
     return t2 - t1;;
+}
+
+double iterate_algorithms (int n, int ex, char part) {
+    double t = 0;
+    if (ex == 2) {
+        t = iterate_algorithms_2(n, part);
+    } else if (ex == 4) {
+        t = iterate_algorithms_4(n, part);
+    }
+    return t / iterations;
 }
 
 double ex2_partA (pheap h, int iteration) {
@@ -293,7 +314,7 @@ double ex2_partB (pheap h, int iteration) {
     return (t2 - t1);
 }
 
-double ex4_partA (pheap h, int iteration) {
+double ex4_partA (int arr[], int iteration) {
     double t1 = 0, t2 = 0;
     t1 = microsegundos();
     for (int n = 0; n < iteration; n++) {
@@ -303,7 +324,7 @@ double ex4_partA (pheap h, int iteration) {
     return (t2 - t1);
 }
 
-double ex4_partB (pheap h, int iteration) {
+double ex4_partB (int arr[], int iteration) {
     double t1 = 0, t2 = 0;
     t1 = microsegundos();
     for (int n = 0; n < iteration; n++) {
@@ -313,7 +334,7 @@ double ex4_partB (pheap h, int iteration) {
     return (t2 - t1);
 }
 
-double ex4_partC (pheap h, int iteration) {
+double ex4_partC (int arr[], int iteration) {
     double t1 = 0, t2 = 0;
     t1 = microsegundos();
     for (int n = 0; n < iteration; n++) {
@@ -323,17 +344,17 @@ double ex4_partC (pheap h, int iteration) {
     return (t2 - t1);
 }
 
-void run_algorithm (pheap h, int iteration, int ex, char part) {
+void run_algorithm (pheap h, int arr[], int iteration, int ex, char part) {
     int iterated = 0;
     double t = 0;
     if (ex == 2 && part == 'a') { t = ex2_partA(h, iteration); }
     if (ex == 2 && part == 'b') { t = ex2_partB(h, iteration); }
-    if (ex == 4 && part == 'a') { t = ex4_partA(h, iteration); }
-    if (ex == 4 && part == 'b') { t = ex4_partB(h, iteration); }
-    if (ex == 4 && part == 'c') { t = ex4_partC(h, iteration); }
+    if (ex == 4 && part == 'a') { t = ex4_partA(arr, iteration); }
+    if (ex == 4 && part == 'b') { t = ex4_partB(arr, iteration); }
+    if (ex == 4 && part == 'c') { t = ex4_partC(arr, iteration); }
     t = t  - repeat_rand(iteration, 0);
     if (t < 500) {
-        t = iterate_algorithms() - repeat_rand(iteration, 1);
+        t = iterate_algorithms(iteration, ex, part);
         iterated = 1;
     }
     print_algorithms(iteration, t, iterated, 2, 'a');
@@ -345,10 +366,11 @@ int main() {
         test();
     }
     pheap h = malloc(sizeof(struct heap));
+    int empty[0];
     print_headlines(2, 'a');
     for (int n = 125; n <= 16000; n = n*2) {
         init_heap(h);
-        run_algorithm(h, n, 2,'a');
+        run_algorithm(h, empty, n, 2, 'a');
     }
     print_headlines(2, 'b');
     for (int n = 125; n <= 16000; n = n*2) {
