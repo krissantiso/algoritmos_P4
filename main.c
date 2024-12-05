@@ -317,9 +317,7 @@ double ex2_partB (pheap h, int iteration) {
 double ex4_partA (int arr[], int iteration) {
     double t1 = 0, t2 = 0;
     t1 = microsegundos();
-    for (int n = 0; n < iteration; n++) {
-
-    }
+    heap_sort(arr, iteration);
     t2 = microsegundos();
     return (t2 - t1);
 }
@@ -327,9 +325,7 @@ double ex4_partA (int arr[], int iteration) {
 double ex4_partB (int arr[], int iteration) {
     double t1 = 0, t2 = 0;
     t1 = microsegundos();
-    for (int n = 0; n < iteration; n++) {
-
-    }
+    heap_sort(arr, iteration);
     t2 = microsegundos();
     return (t2 - t1);
 }
@@ -337,9 +333,7 @@ double ex4_partB (int arr[], int iteration) {
 double ex4_partC (int arr[], int iteration) {
     double t1 = 0, t2 = 0;
     t1 = microsegundos();
-    for (int n = 0; n < iteration; n++) {
-
-    }
+    heap_sort(arr, iteration);
     t2 = microsegundos();
     return (t2 - t1);
 }
@@ -367,6 +361,7 @@ int main() {
     }
     pheap h = malloc(sizeof(struct heap));
     int empty[0];
+    int arr[];
     print_headlines(2, 'a');
     for (int n = 125; n <= 16000; n = n*2) {
         init_heap(h);
@@ -377,8 +372,20 @@ int main() {
 
     }
     print_headlines(4, 'a');
+    for (int n = 125; n <= 16000; n*2) {
+        ascending_init(arr, n);
+        run_algorithm(NULL, n, arr, 4, 'a');
+    }
     print_headlines(4, 'b');
+    for (int n = 125; n <= 16000; n*2) {
+        descending_init(arr, n);
+        run_algorithm(NULL, n, arr, 4, 'b');
+    }
     print_headlines(4, 'c');
+    for (int n = 125; n <= 16000; n*2) {
+        random_init(arr, n);
+        run_algorithm(NULL, n, arr, 4 , 'c');
+    }
     free(h);
     return 0;
 }
