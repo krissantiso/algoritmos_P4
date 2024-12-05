@@ -293,47 +293,41 @@ double ex2_partB (pheap h, int iteration) {
     return (t2 - t1);
 }
 
-double ex4_partA (pheap h, int iteration) {
+double ex4_partA (int arr[], int iteration) {
     double t1 = 0, t2 = 0;
     t1 = microsegundos();
-    for (int n = 0; n < iteration; n++) {
-
-    }
+    heap_sort(arr, iteration);
     t2 = microsegundos();
     return (t2 - t1);
 }
 
-double ex4_partB (pheap h, int iteration) {
+double ex4_partB (int arr[], int iteration) {
     double t1 = 0, t2 = 0;
     t1 = microsegundos();
-    for (int n = 0; n < iteration; n++) {
-
-    }
+    heap_sort(arr, iteration);
     t2 = microsegundos();
     return (t2 - t1);
 }
 
-double ex4_partC (pheap h, int iteration) {
+double ex4_partC (int arr[], int iteration) {
     double t1 = 0, t2 = 0;
     t1 = microsegundos();
-    for (int n = 0; n < iteration; n++) {
-
-    }
+    heap_sort(arr, iteration);
     t2 = microsegundos();
     return (t2 - t1);
 }
 
-void run_algorithm (pheap h, int iteration, int ex, char part) {
+void run_algorithm (pheap h, int arr[], int iteration, int ex, char part) {
     int iterated = 0;
     double t = 0;
     if (ex == 2 && part == 'a') { t = ex2_partA(h, iteration); }
     if (ex == 2 && part == 'b') { t = ex2_partB(h, iteration); }
-    if (ex == 4 && part == 'a') { t = ex4_partA(h, iteration); }
-    if (ex == 4 && part == 'b') { t = ex4_partB(h, iteration); }
-    if (ex == 4 && part == 'c') { t = ex4_partC(h, iteration); }
+    if (ex == 4 && part == 'a') { t = ex4_partA(arr, iteration); }
+    if (ex == 4 && part == 'b') { t = ex4_partB(arr, iteration); }
+    if (ex == 4 && part == 'c') { t = ex4_partC(arr, iteration); }
     t = t  - repeat_rand(iteration, 0);
     if (t < 500) {
-        t = iterate_algorithms() - repeat_rand(iteration, 1);
+        t = iterate_algorithms();
         iterated = 1;
     }
     print_algorithms(iteration, t, iterated, 2, 'a');
@@ -345,6 +339,7 @@ int main() {
         test();
     }
     pheap h = malloc(sizeof(struct heap));
+    int arr[];
     print_headlines(2, 'a');
     for (int n = 125; n <= 16000; n = n*2) {
         init_heap(h);
@@ -355,8 +350,20 @@ int main() {
 
     }
     print_headlines(4, 'a');
+    for (int n = 125; n <= 16000; n*2) {
+        ascending_init(arr, n);
+        run_algorithm(NULL, n, arr, 4, 'a');
+    }
     print_headlines(4, 'b');
+    for (int n = 125; n <= 16000; n*2) {
+        descending_init(arr, n);
+        run_algorithm(NULL, n, arr, 4, 'b');
+    }
     print_headlines(4, 'c');
+    for (int n = 125; n <= 16000; n*2) {
+        random_init(arr, n);
+        run_algorithm(NULL, n, arr, 4 , 'c');
+    }
     free(h);
     return 0;
 }
