@@ -1,17 +1,21 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <sys/time.h>
-#include <math.h>
 
 // Authors:
 //    Kris Santiso
 //    Diego Arturo Contreras
 //    Antia Vazquez
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <sys/time.h>
+#include <math.h>
+
+
 #define DOTEST 0
 #define DOEX2 1
 #define DOEX4 0
+//to reuse variables we also use this as the maximum number a node can be
+#define iterations 10000
 
 #define SZ 256000
 struct heap {
@@ -216,7 +220,7 @@ void print_algorithms (int n, double t, int iterated, int ex, char part) {
     double x, y, z;
     if (ex == 2) {
         if (part == 'a') {
-            x = t / n; y = t / n; z = t / n;
+            x = t / pow(n* (log(n)), 0.8); y = t / (n* (log(n))); z = t / pow(n* (log(n)), 1.2);
         } else if (part == 'b') {
             x = t / n; y = t / n; z = t / n;
         } else {x = 0; y = 0; z = 0;}
@@ -238,42 +242,101 @@ void print_algorithms (int n, double t, int iterated, int ex, char part) {
     }
 }
 
+int random_num (int max) {
+    int i = rand() % (max + 1);
+    return i;
+}
+
+double repeat_rand (int iter, int i) {
+    double ta = 0, tb = 0;
+    if (i == 0) { //it means we iterated iterations times
+        ta = microsegundos();
+        for (int k = 0; k < iterations; k++) {
+            for (int z = 0; z < iter; z++) {
+                random_num(iterations);
+            }
+        }
+        tb = microsegundos();
+    } else { //it means we didnt iterate
+        ta = microsegundos();
+        for (int z = 0; z < iter; z++) {
+            random_num(iterations);
+        }
+        tb = microsegundos();
+    }
+    return tb - ta;
+}
+
 double iterate_algorithms () {
     double t1 = 0, t2 = 0;
     return t2 - t1;;
 }
 
-void ex2_partA (int n) {
-    int iterated = 0;
-    double t1 = 0, t2 = 0, t;
+double ex2_partA (pheap h, int iteration) {
+    double t1 = 0, t2 = 0;
     t1 = microsegundos();
-    for (int z = 0; z < n; z++) {}
+    for (int n = 0; n < iteration; n++) {
+        int i = random_num(iterations);
+        insert_heap(h, i);
+    }
     t2 = microsegundos();
-    t = (t2 - t1);
+    return (t2 - t1);
+}
+
+double ex2_partB (pheap h, int iteration) {
+    double t1 = 0, t2 = 0;
+    t1 = microsegundos();
+    for (int n = 0; n < iteration; n++) {
+
+    }
+    t2 = microsegundos();
+    return (t2 - t1);
+}
+
+double ex4_partA (pheap h, int iteration) {
+    double t1 = 0, t2 = 0;
+    t1 = microsegundos();
+    for (int n = 0; n < iteration; n++) {
+
+    }
+    t2 = microsegundos();
+    return (t2 - t1);
+}
+
+double ex4_partB (pheap h, int iteration) {
+    double t1 = 0, t2 = 0;
+    t1 = microsegundos();
+    for (int n = 0; n < iteration; n++) {
+
+    }
+    t2 = microsegundos();
+    return (t2 - t1);
+}
+
+double ex4_partC (pheap h, int iteration) {
+    double t1 = 0, t2 = 0;
+    t1 = microsegundos();
+    for (int n = 0; n < iteration; n++) {
+
+    }
+    t2 = microsegundos();
+    return (t2 - t1);
+}
+
+void run_algorithm (pheap h, int iteration, int ex, char part) {
+    int iterated = 0;
+    double t = 0;
+    if (ex == 2 && part == 'a') { t = ex2_partA(h, iteration); }
+    if (ex == 2 && part == 'b') { t = ex2_partB(h, iteration); }
+    if (ex == 4 && part == 'a') { t = ex4_partA(h, iteration); }
+    if (ex == 4 && part == 'b') { t = ex4_partB(h, iteration); }
+    if (ex == 4 && part == 'c') { t = ex4_partC(h, iteration); }
+    t = t  - repeat_rand(iteration, 0);
     if (t < 500) {
-        t = iterate_algorithms(n);
+        t = iterate_algorithms() - repeat_rand(iteration, 1);
         iterated = 1;
     }
-    print_algorithms(n, t, iterated, 2, 'a');
-}
-
-void ex2 () {
-    pheap h = malloc(sizeof(struct heap));
-    print_headlines(2, 'a');
-    for (int n = 125; n <= 16000; n = n*2) {
-
-    }
-    print_headlines(2, 'b');
-    for (int n = 125; n <= 16000; n = n*2) {
-
-    }
-    free(h);
-}
-
-void ex4 () {
-    print_headlines(4, 'a');
-    print_headlines(4, 'b');
-    print_headlines(4, 'c');
+    print_algorithms(iteration, t, iterated, 2, 'a');
 }
 
 int main() {
@@ -281,11 +344,19 @@ int main() {
     if (DOTEST != 0) {
         test();
     }
-    if (DOEX2 != 0) {
-        ex2();
+    pheap h = malloc(sizeof(struct heap));
+    print_headlines(2, 'a');
+    for (int n = 125; n <= 16000; n = n*2) {
+        init_heap(h);
+        run_algorithm(h, n, 2,'a');
     }
-    if (DOEX4 != 0) {
-        ex4();
+    print_headlines(2, 'b');
+    for (int n = 125; n <= 16000; n = n*2) {
+
     }
+    print_headlines(4, 'a');
+    print_headlines(4, 'b');
+    print_headlines(4, 'c');
+    free(h);
     return 0;
 }
