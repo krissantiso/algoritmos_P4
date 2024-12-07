@@ -126,7 +126,7 @@ void remove_min(pheap h){
     }
 }
 
-int check_min(const pheap h){
+int check_min(pheap h){
     if (h->last == -1){
         printf("Heap is empty\n");
         return -1;
