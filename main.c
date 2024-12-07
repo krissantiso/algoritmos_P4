@@ -213,9 +213,15 @@ void print_headlines(int ex, char part) {
         else if (part == 'b') {}
         else {printf("ERROR\n");}
     } else if (ex == 4) {
-        if (part == 'a') {}
-        else if (part == 'b') {}
-        else if (part == 'c') {}
+        if (part == 'a') {
+            printf("Sorting ascending array\n");
+        }
+        else if (part == 'b') {
+            printf("Sorting descending array\n");
+        }
+        else if (part == 'c') {
+            printf("Sorting random array\n");
+        }
         else {printf("ERROR\n");}
     } else {
         printf("ERROR\n");
@@ -357,6 +363,7 @@ double iterate_algorithms_4 (int arr[], int n, char part) {
             heap_sort(arr, n, 0);
             ascending_init(arr, n);
         }
+        t2 = microsegundos();
         return t2 - t1 - repeat_asc_init(n);
     } else if (part == 'b') {
         t1 = microsegundos();
@@ -364,6 +371,7 @@ double iterate_algorithms_4 (int arr[], int n, char part) {
             heap_sort(arr, n, 0);
             descending_init(arr, n);
         }
+        t2 = microsegundos();
         return t2 - t1 - repeat_desc_init(n);
     } else if (part == 'c') {
         t1 = microsegundos();
@@ -371,6 +379,7 @@ double iterate_algorithms_4 (int arr[], int n, char part) {
             heap_sort(arr, n, 0);
             random_init(arr, n);
         }
+        t2 = microsegundos();
         return t2 - t1 - repeat_rand_init(n);
     } else return 0;
 }
