@@ -11,7 +11,7 @@
 #include <math.h>
 
 
-#define DOTEST 0
+#define DOTEST 1
 #define DOEX2 1
 #define DOEX4 0
 //to reuse variables we also use this as the maximum number a node can be
@@ -267,28 +267,31 @@ double repeat_rand (int iter, int i) {
     return tb - ta;
 }
 
-double iterate_algorithms_2 (int n, char part) {
+double iterate_algorithms_2 (pheap h, int n, char part) {
     double t1 = 0, t2 = 0;
     if (part == 'a') {
         t1 = microsegundos();
         for (int k = 0; k < iterations; k++) {
-            for (int z = 0; z < n; z++) {}
+            for (int z = 0; z < n; z++) {
+                int i = random_num(iterations);
+                insert_heap(h, i);
+            }
         }
     }
     return t2 - t1 - repeat_rand(iterations, 1);;
 }
 
-double iterate_algorithms_4 (int n, char part) {
+double iterate_algorithms_4 (int arr[], int n, char part) {
     double t1 = 0, t2 = 0;
     return t2 - t1;;
 }
 
-double iterate_algorithms (int n, int ex, char part) {
+double iterate_algorithms (pheap h, int arr[], int n, int ex, char part) {
     double t = 0;
     if (ex == 2) {
-        t = iterate_algorithms_2(n, part);
+        t = iterate_algorithms_2(h, n, part);
     } else if (ex == 4) {
-        t = iterate_algorithms_4(n, part);
+        t = iterate_algorithms_4(arr, n, part);
     }
     return t / iterations;
 }
@@ -348,10 +351,10 @@ void run_algorithm (pheap h, int arr[], int iteration, int ex, char part) {
     if (ex == 4 && part == 'c') { t = ex4_partC(arr, iteration); }
     t = t  - repeat_rand(iteration, 0);
     if (t < 500) {
-        t = iterate_algorithms(iteration, ex, part);
+        t = iterate_algorithms(h, arr, iteration, ex, part);
         iterated = 1;
     }
-    print_algorithms(iteration, t, iterated, 2, 'a');
+    print_algorithms(iteration, t, iterated, ex, part);
 }
 
 int main() {
@@ -361,7 +364,6 @@ int main() {
     }
     pheap h = malloc(sizeof(struct heap));
     int empty[0];
-    int arr[];
     print_headlines(2, 'a');
     for (int n = 125; n <= 16000; n = n*2) {
         init_heap(h);
@@ -372,19 +374,22 @@ int main() {
 
     }
     print_headlines(4, 'a');
-    for (int n = 125; n <= 16000; n*2) {
+    for (int n = 125; n <= 16000; n = n*2) {
+        int arr[n];
         ascending_init(arr, n);
-        run_algorithm(NULL, n, arr, 4, 'a');
+        run_algorithm(NULL, arr, n, 4, 'a');
     }
     print_headlines(4, 'b');
-    for (int n = 125; n <= 16000; n*2) {
+    for (int n = 125; n <= 16000; n = n*2) {
+        int arr[n];
         descending_init(arr, n);
-        run_algorithm(NULL, n, arr, 4, 'b');
+        run_algorithm(NULL, arr, n, 4, 'b');
     }
     print_headlines(4, 'c');
-    for (int n = 125; n <= 16000; n*2) {
+    for (int n = 125; n <= 16000; n = n*2) {
+        int arr[n];
         random_init(arr, n);
-        run_algorithm(NULL, n, arr, 4 , 'c');
+        run_algorithm(NULL, arr, n, 4 , 'c');
     }
     free(h);
     return 0;
