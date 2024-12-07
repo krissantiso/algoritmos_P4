@@ -139,18 +139,14 @@ void create_heap(pheap* h, int const a[], int n){
     for (int i=0; i<n ;i++){
         (*h)->vector[i]=a[i];
     }
-    for (int i=n/2 -1;i>=0;i--){
+    for (int i=(n/2) -1;i>=0;i--){
         PercolateDown(*h,i);
     }
 }
 
-void heap_sort (int a[],int n, int test){
+void heap_sort (int a[],int n){
     pheap h=malloc(sizeof(struct heap));
     create_heap (&h,a,n);
-    if (test == 1) {
-        printf("Heap array after create_heap: \t");
-    print_heap(h);
-    }
     for (int i=0;i<n;i++){
         a[i]= check_min(h);
         remove_min(h);
@@ -190,7 +186,7 @@ void test_heapsort(int a[],void (*init)(int[],int),int n){
     printf("Original Array:\t");
     print_array(a,n);
     printf("Sorting...\n");
-    heap_sort(a, n, 1);
+    heap_sort(a, n);
     printf("Sorted array:\t");
     print_array(a,n);
 }
@@ -233,17 +229,17 @@ void print_algorithms (int n, double t, int iterated, int ex, char part) {
     double x, y, z;
     if (ex == 2) {
         if (part == 'a') {
-            x = t / pow(n* (log(n)), 0.8); y = t / (n* (log(n))); z = t / pow(n* (log(n)), 1.2);
+            x=t/pow(n*(log(n)),0.8);y=t/(n*(log(n)));z=t/pow(n*(log(n)),1.2);
         } else if (part == 'b') {
             x = t / pow(n, 0.8); y = t / n; z = t / pow(n, 1.2);
         } else {x = 0; y = 0; z = 0;}
     } else if (ex == 4) {
         if (part == 'a') {
-            x = t / n; y = t / n; z = t / n;
+            x=t/pow(n*(log(n)),0.8);y=t/(n*(log(n)));z=t/pow(n*(log(n)),1.2);
         } else if (part == 'b') {
-            x = t / n; y = t / n; z = t / n;
+            x=t/pow(n*(log(n)),0.8);y=t/(n*(log(n)));z=t/pow(n*(log(n)),1.2);
         }  else if (part == 'c') {
-            x = t / n; y = t / n; z = t / n;
+            x=t/pow(n*(log(n)),0.8);y=t/(n*(log(n)));z=t/pow(n*(log(n)),1.2);
         } else {x = 0; y = 0; z = 0;}
     } else {
         x = 0; y = 0; z = 0;
@@ -360,7 +356,7 @@ double iterate_algorithms_4 (int arr[], int n, char part) {
     if (part == 'a') {
         t1 = microsegundos();
         for (int k = 0; k < iterations; k++) {
-            heap_sort(arr, n, 0);
+            heap_sort(arr, n);
             ascending_init(arr, n);
         }
         t2 = microsegundos();
@@ -368,7 +364,7 @@ double iterate_algorithms_4 (int arr[], int n, char part) {
     } else if (part == 'b') {
         t1 = microsegundos();
         for (int k = 0; k < iterations; k++) {
-            heap_sort(arr, n, 0);
+            heap_sort(arr, n);
             descending_init(arr, n);
         }
         t2 = microsegundos();
@@ -376,7 +372,7 @@ double iterate_algorithms_4 (int arr[], int n, char part) {
     } else if (part == 'c') {
         t1 = microsegundos();
         for (int k = 0; k < iterations; k++) {
-            heap_sort(arr, n, 0);
+            heap_sort(arr, n);
             random_init(arr, n);
         }
         t2 = microsegundos();
@@ -420,7 +416,7 @@ double ex2_partB (pheap h, int iteration) {
 double ex4_partA (int arr[], int iteration) {
     double t1 = 0, t2 = 0;
     t1 = microsegundos();
-    heap_sort(arr, iteration, 0);
+    heap_sort(arr, iteration);
     t2 = microsegundos();
     return (t2 - t1);
 }
@@ -428,7 +424,7 @@ double ex4_partA (int arr[], int iteration) {
 double ex4_partB (int arr[], int iteration) {
     double t1 = 0, t2 = 0;
     t1 = microsegundos();
-    heap_sort(arr, iteration, 0);
+    heap_sort(arr, iteration);
     t2 = microsegundos();
     return (t2 - t1);
 }
@@ -436,7 +432,7 @@ double ex4_partB (int arr[], int iteration) {
 double ex4_partC (int arr[], int iteration) {
     double t1 = 0, t2 = 0;
     t1 = microsegundos();
-    heap_sort(arr, iteration, 0);
+    heap_sort(arr, iteration);
     t2 = microsegundos();
     return (t2 - t1);
 }
