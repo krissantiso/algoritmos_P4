@@ -235,7 +235,7 @@ void print_algorithms (int n, double t, int iterated, int ex, char part) {
         } else {x = 0; y = 0; z = 0;}
     } else if (ex == 4) {
         if (part == 'a') {
-            x=t/pow(n*(log(n)),0.8);y=t/(n*(log(n)));z=t/pow(n*(log(n)),1.2);
+            x = t / pow(n, 0.8); y = t / n; z = t / pow(n, 1.2);
         } else if (part == 'b') {
             x=t/pow(n*(log(n)),0.8);y=t/(n*(log(n)));z=t/pow(n*(log(n)),1.2);
         }  else if (part == 'c') {
