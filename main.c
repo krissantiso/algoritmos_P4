@@ -226,7 +226,7 @@ void print_headlines(int ex, char part) {
     } else {
         printf("ERROR\n");
     }
-    printf("\tn\tTime\tunder.\ttight\tover.\n");
+    printf("\tn\t\t\tTime\t    Underest.\t\tTight\t\t\tOverest.\n");
 }
 
 void print_algorithms (int n, double t, int iterated, int ex, char part) {
@@ -249,9 +249,9 @@ void print_algorithms (int n, double t, int iterated, int ex, char part) {
         x = 0; y = 0; z = 0;
     }
     if (iterated == 1) {
-        printf("%12d %20.3fms* %20.12f %20.12f %20.12f\n", n, t, x, y, z);
+        printf("%12d %20.3fus* %20.12f %20.12f %20.12f\n", n, t, x, y, z);
     } else {
-        printf("%12d %20.3fms  %20.12f %20.12f %20.12f\n", n, t, x, y, z);
+        printf("%12d %20.3fus  %20.12f %20.12f %20.12f\n", n, t, x, y, z);
     }
 }
 
