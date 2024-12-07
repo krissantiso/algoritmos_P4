@@ -12,7 +12,7 @@
 
 
 #define DOTEST 0
-#define DOEX2 0
+#define DOEX2 1
 #define DOEX4 1
 //to reuse variables we also use this as the maximum number a node can be
 #define iterations 10000
@@ -235,7 +235,7 @@ void print_algorithms (int n, double t, int iterated, int ex, char part) {
         if (part == 'a') {
             x = t / pow(n* (log(n)), 0.8); y = t / (n* (log(n))); z = t / pow(n* (log(n)), 1.2);
         } else if (part == 'b') {
-            x = t / n; y = t / n; z = t / n;
+            x = t / pow(n, 0.8); y = t / n; z = t / pow(n, 1.2);
         } else {x = 0; y = 0; z = 0;}
     } else if (ex == 4) {
         if (part == 'a') {
@@ -339,7 +339,7 @@ double iterate_algorithms_2 (pheap h, int n, char part) {
             }
         }
         t2 = microsegundos();
-        t = t2 - t1 - repeat_rand(iterations, 1) - repeat_init();
+        t = t2 - t1 - repeat_rand(n, 0) - repeat_init();
     } else if (part == 'b') {
         int arr[n];
         t1 = microsegundos();
@@ -404,7 +404,7 @@ double ex2_partA (pheap h, int iteration) {
         }
     }
     t2 = microsegundos();
-    return (t2 - t1);
+    return (t2 - t1) - repeat_rand(iteration, 1);
 }
 
 double ex2_partB (pheap h, int iteration) {
@@ -465,7 +465,7 @@ int main() {
     }
     if ( DOEX2 != 0) {
         print_headlines(2, 'a');
-        for (int n = 500; n <= 32000; n = n*2) {
+        for (int n = 10000; n <= 50000; n = n + 5000) {
             pheap h = malloc(sizeof(struct heap));
             init_heap(h);
             run_algorithm(h, NULL, n, 2, 'a');
