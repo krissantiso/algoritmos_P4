@@ -295,6 +295,30 @@ double repeat_rand_init (int iter) {
     return tb - ta;
 }
 
+double repeat_asc_init (int iter) {
+    double ta = 0, tb = 0;
+    int arr[iter];
+    ta = microsegundos();
+    for (int k = 0; k < iterations; k++) {
+        random_init(arr, iter);
+        ascending_init(arr, n);
+    }
+    tb = microsegundos();
+    return tb - ta - repeat_rand_init(iter);
+}
+
+double repeat_desc_init () {
+    double ta = 0, tb = 0;
+    int arr[iter];
+    ta = microsegundos();
+    for (int k = 0; k < iterations; k++) {
+        random_init(arr, iter);
+        descending_init(arr, n);
+    }
+    tb = microsegundos();
+    return tb - ta - repeat_rand_init(iter);
+}
+
 double iterate_algorithms_2 (pheap h, int n, char part) {
     double t1 = 0, t2 = 0, t = 0;
     if (part == 'a') {
@@ -325,7 +349,28 @@ double iterate_algorithms_2 (pheap h, int n, char part) {
 
 double iterate_algorithms_4 (int arr[], int n, char part) {
     double t1 = 0, t2 = 0;
-    return t2 - t1;;
+    if (part == 'a') {
+        t1 = microsegundos();
+        for (int k = 0; k < iterations; k++) {
+            heap_sort(arr, n);
+            ascending_init(arr, n);
+        }
+        return t2 - t1 - repeat_asc_init(n);
+    } else if (part == 'b') {
+        t1 = microsegundos();
+        for (int k = 0; k < iterations; k++) {
+            heap_sort(arr, n);
+            descending_init(arr, n);
+        }
+        return t2 - t1 - repeat_desc_init(n);
+    } else if (part == 'c') {
+        t1 = microsegundos();
+        for (int k = 0; k < iterations; k++) {
+            heap_sort(arr, n);
+            random_init(arr, n);
+        }
+        return t2 - t1 - repeat_rand_init(n);
+    }
 }
 
 double iterate_algorithms (pheap h, int arr[], int n, int ex, char part) {
