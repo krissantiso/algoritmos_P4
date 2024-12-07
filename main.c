@@ -12,8 +12,8 @@
 
 
 #define DOTEST 0
-#define DOEX2 1
-#define DOEX4 0
+#define DOEX2 0
+#define DOEX4 1
 //to reuse variables we also use this as the maximum number a node can be
 #define iterations 10000
 
@@ -146,11 +146,13 @@ void create_heap(pheap* h, int const a[], int n){
     }
 }
 
-void heap_sort (int a[],int n){
+void heap_sort (int a[],int n, int test){
     pheap h=malloc(sizeof(struct heap));
     create_heap (&h,a,n);
-    printf("Heap array after create_heap: \t");
+    if (test == 1) {
+        printf("Heap array after create_heap: \t");
     print_heap(h);
+    }
     for (int i=0;i<n;i++){
         a[i]= check_min(h);
         remove_min(h);
@@ -190,7 +192,7 @@ void test_heapsort(int a[],void (*init)(int[],int),int n){
     printf("Original Array:\t");
     print_array(a,n);
     printf("Sorting...\n");
-    heap_sort(a,n);
+    heap_sort(a, n, 1);
     printf("Sorted array:\t");
     print_array(a,n);
 }
@@ -352,25 +354,25 @@ double iterate_algorithms_4 (int arr[], int n, char part) {
     if (part == 'a') {
         t1 = microsegundos();
         for (int k = 0; k < iterations; k++) {
-            heap_sort(arr, n);
+            heap_sort(arr, n, 0);
             ascending_init(arr, n);
         }
         return t2 - t1 - repeat_asc_init(n);
     } else if (part == 'b') {
         t1 = microsegundos();
         for (int k = 0; k < iterations; k++) {
-            heap_sort(arr, n);
+            heap_sort(arr, n, 0);
             descending_init(arr, n);
         }
         return t2 - t1 - repeat_desc_init(n);
     } else if (part == 'c') {
         t1 = microsegundos();
         for (int k = 0; k < iterations; k++) {
-            heap_sort(arr, n);
+            heap_sort(arr, n, 0);
             random_init(arr, n);
         }
         return t2 - t1 - repeat_rand_init(n);
-    }
+    } else return 0;
 }
 
 double iterate_algorithms (pheap h, int arr[], int n, int ex, char part) {
@@ -411,7 +413,7 @@ double ex2_partB (pheap h, int iteration) {
 double ex4_partA (int arr[], int iteration) {
     double t1 = 0, t2 = 0;
     t1 = microsegundos();
-    heap_sort(arr, iteration);
+    heap_sort(arr, iteration, 0);
     t2 = microsegundos();
     return (t2 - t1);
 }
@@ -419,7 +421,7 @@ double ex4_partA (int arr[], int iteration) {
 double ex4_partB (int arr[], int iteration) {
     double t1 = 0, t2 = 0;
     t1 = microsegundos();
-    heap_sort(arr, iteration);
+    heap_sort(arr, iteration, 0);
     t2 = microsegundos();
     return (t2 - t1);
 }
@@ -427,7 +429,7 @@ double ex4_partB (int arr[], int iteration) {
 double ex4_partC (int arr[], int iteration) {
     double t1 = 0, t2 = 0;
     t1 = microsegundos();
-    heap_sort(arr, iteration);
+    heap_sort(arr, iteration, 0);
     t2 = microsegundos();
     return (t2 - t1);
 }
