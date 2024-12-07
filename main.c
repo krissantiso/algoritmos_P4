@@ -208,7 +208,9 @@ void print_headlines(int ex, char part) {
         if (part == 'a') {
             printf("Adding n nodes with insert_heap to an empty array\n");
         }
-        else if (part == 'b') {}
+        else if (part == 'b') {
+            printf("Creating heap from a random array with n elements\n");
+        }
         else {printf("ERROR\n");}
     } else if (ex == 4) {
         if (part == 'a') {
