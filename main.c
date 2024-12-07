@@ -67,7 +67,7 @@ void print_heap (pheap h){
 }
 
 void print_array (int v[],int n){
-    for (int i=0;i<10;i++){
+    for (int i=0;i<n;i++){
         printf("%d ",v[i]);
     }
     printf("\n");
@@ -86,13 +86,15 @@ void PercolateUp (pheap h, int i){
     }
 }
 
-void insert_heap(pheap h, int x){
+int insert_heap(pheap h, int x){
     if (h->last >= SZ-1) {
         printf("Cannot insert, heap is already full\n");
+        return 1;
     } else{
         h->last = h->last +1;
         h->vector [h->last] = x;
         PercolateUp (h,h->last);
+        return 0;
     }
 }
 
@@ -133,20 +135,20 @@ int check_min(const pheap h){
     }
 }
 
-void create_heap(pheap h, int a[], int n){
-    init_heap(h);
-    h->last=n-1;
+void create_heap(pheap* h, int const a[], int n){
+    init_heap(*h);
+    (*h)->last=n-1;
     for (int i=0; i<n ;i++){
-        h->vector[i]=a[i];
+        (*h)->vector[i]=a[i];
     }
     for (int i=n/2 -1;i>=0;i--){
-        PercolateDown(h,i);
+        PercolateDown(*h,i);
     }
 }
 
 void heap_sort (int a[],int n){
     pheap h=malloc(sizeof(struct heap));
-    create_heap (h,a,n);
+    create_heap (&h,a,n);
     printf("Heap array after create_heap: \t");
     print_heap(h);
     for (int i=0;i<n;i++){
@@ -158,11 +160,15 @@ void heap_sort (int a[],int n){
 
 void test_functions(int a[],int n){
     pheap h=malloc(sizeof(struct heap));
+    if (h==NULL){
+        printf("Allocation error\n");
+        return;
+    }
     int x=0;
     descending_init(a,n);
     printf("Initial array:\n");
     print_array(a,n);
-    create_heap(h,a,n);
+    create_heap(&h,a,n);
     printf("Created heap:\n");
     print_heap(h);
     printf("Minimum element: %d\n", check_min(h));
@@ -176,8 +182,7 @@ void test_functions(int a[],int n){
         print_heap(h);
     }
     printf("\n");
-    //free(h);
-
+    free(h);
 }
 
 void test_heapsort(int a[],void (*init)(int[],int),int n){
