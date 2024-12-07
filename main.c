@@ -86,15 +86,13 @@ void PercolateUp (pheap h, int i){
     }
 }
 
-int insert_heap(pheap h, int x){
+void insert_heap(pheap h, int x){
     if (h->last >= SZ-1) {
         printf("Cannot insert, heap is already full\n");
-        return 1;
     } else{
         h->last = h->last +1;
         h->vector [h->last] = x;
         PercolateUp (h,h->last);
-        return 0;
     }
 }
 
@@ -399,9 +397,7 @@ double ex2_partA (pheap h, int iteration) {
     t1 = microsegundos();
     for (int n = 0; n < iteration; n++) {
         int i = random_num(iterations);
-        if ( insert_heap(h, i) == 1 ) {
-            return -1;
-        }
+        insert_heap(h, i);
     }
     t2 = microsegundos();
     return (t2 - t1) - repeat_rand(iteration, 1);
