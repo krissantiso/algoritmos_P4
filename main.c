@@ -301,19 +301,19 @@ double repeat_asc_init (int iter) {
     ta = microsegundos();
     for (int k = 0; k < iterations; k++) {
         random_init(arr, iter);
-        ascending_init(arr, n);
+        ascending_init(arr, iter);
     }
     tb = microsegundos();
     return tb - ta - repeat_rand_init(iter);
 }
 
-double repeat_desc_init () {
+double repeat_desc_init (int iter) {
     double ta = 0, tb = 0;
     int arr[iter];
     ta = microsegundos();
     for (int k = 0; k < iterations; k++) {
         random_init(arr, iter);
-        descending_init(arr, n);
+        descending_init(arr, iter);
     }
     tb = microsegundos();
     return tb - ta - repeat_rand_init(iter);
